@@ -85,7 +85,7 @@ resource "aws_api_gateway_integration_response" "get_200" {
   http_method = aws_api_gateway_method.get.http_method
   status_code = aws_api_gateway_method_response.get_200.status_code
 
-  response_templates  = {
+  response_templates = {
     "application/json" = ""
   }
 
@@ -138,7 +138,7 @@ resource "aws_api_gateway_integration_response" "options_200" {
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
     "method.response.header.Access-Control-Allow-Methods" = "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
-    "method.response.header.Access-Control-Allow-Origin"  = "'*'" 
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
 }
 
