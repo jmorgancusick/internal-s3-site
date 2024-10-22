@@ -9,6 +9,8 @@ provider "aws" {
   }
 }
 
+provider "random" {}
+
 terraform {
   backend "s3" {
     bucket  = "jmorgancusick-terraform-state-sandbox"

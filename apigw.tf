@@ -1,5 +1,10 @@
 resource "aws_api_gateway_rest_api" "internal_s3_site" {
   name = "internal-s3-site"
+
+  endpoint_configuration {
+    types            = ["PRIVATE"]
+    vpc_endpoint_ids = [aws_vpc_endpoint.apigw.id]
+  }
 }
 
 resource "aws_api_gateway_resource" "object" {
@@ -21,6 +26,7 @@ resource "aws_api_gateway_deployment" "example" {
       aws_api_gateway_integration.options,
       aws_api_gateway_integration_response.options_200,
       aws_api_gateway_method_response.options_200,
+      aws_api_gateway_rest_api_policy.allow_vpce_only,
     ]))
   }
 
@@ -35,18 +41,26 @@ resource "aws_api_gateway_stage" "dev" {
   stage_name    = "dev"
 }
 
+resource "aws_api_gateway_rest_api_policy" "allow_vpce_only" {
+  rest_api_id = aws_api_gateway_rest_api.internal_s3_site.id
+  policy      = data.aws_iam_policy_document.apigw_allow_vpce_only.json
+}
 
-# TODO: add logging https://stackoverflow.com/a/59057471
-# resource "aws_api_gateway_method_settings" "dev" {
-#   rest_api_id = aws_api_gateway_rest_api.internal_s3_site.id
-#   stage_name  = aws_api_gateway_stage.dev.stage_name
-#   method_path = "*/*"
+# APIGW Logging - one time setup per region
+resource "aws_api_gateway_account" "logging" {
+  cloudwatch_role_arn = aws_iam_role.apigw_logger.arn
+}
 
-#   settings {
-#     metrics_enabled = true
-#     logging_level   = "INFO"
-#   }
-# }
+resource "aws_api_gateway_method_settings" "all" {
+  rest_api_id = aws_api_gateway_rest_api.internal_s3_site.id
+  stage_name  = aws_api_gateway_stage.dev.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled = true
+    logging_level   = "INFO"
+  }
+}
 
 # ==========================================
 # =============== GET for S3 ===============

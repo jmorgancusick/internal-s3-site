@@ -27,3 +27,21 @@ variable "admin_iam_role_regex" {
   type        = string
   default     = "(AWSReservedSSO_AWSAdministratorAccess_|github_actions_admin).*"
 }
+
+variable "jumphost_name" {
+  description = "The name of EC2 instance jumphost and associated resources"
+  type        = string
+  default     = "jumphost-deb-arm"
+}
+
+variable "proxy_port" {
+  description = "The name port to run proxied https traffic through"
+  type        = number
+  default     = 8888
+}
+
+variable "proxy_username" {
+  description = "The username for proxy basic auth"
+  type        = string
+  default     = "jack"
+}

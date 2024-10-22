@@ -19,11 +19,11 @@ resource "aws_s3_bucket_ownership_controls" "example" {
   }
 }
 
-resource "aws_s3_bucket_policy" "allow_this_account_admins" {
+resource "aws_s3_bucket_policy" "internal_s3_site" {
   depends_on = [aws_s3_bucket_public_access_block.public_access_block]
 
   bucket = aws_s3_bucket.example.id
-  policy = data.aws_iam_policy_document.this_accounts_admins.json
+  policy = data.aws_iam_policy_document.internal_s3_site_bucket_policy.json
 }
 
 
@@ -39,7 +39,7 @@ module "template_files" {
 resource "aws_s3_object" "static_files" {
   for_each = module.template_files.files
 
-  bucket       = aws_s3_bucket_policy.allow_this_account_admins.bucket
+  bucket       = aws_s3_bucket_policy.internal_s3_site.bucket
   key          = each.key
   content_type = each.value.content_type
 

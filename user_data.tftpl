@@ -1,0 +1,14 @@
+#cloud-config
+
+# Package management
+package_update: true
+package_upgrade: true
+packages:
+  - tinyproxy
+
+
+# Commands to run at the end of the cloud-init process (can't use write-files because we need order to be packages -> write-files -> runcmd) - https://stackoverflow.com/questions/34095839/cloud-init-what-is-the-execution-order-of-cloud-config-directives
+runcmd:
+  - echo "Allow 0.0.0.0/0" >> /etc/tinyproxy/tinyproxy.conf
+  - echo "BasicAuth ${proxy_username} ${proxy_password}" >> /etc/tinyproxy/tinyproxy.conf
+  - systemctl restart tinyproxy
