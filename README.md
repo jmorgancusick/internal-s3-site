@@ -1,6 +1,11 @@
 # internal-s3-site
 Use API GW and cognito for internal-only static sites
 
+### TODOs:
+
+* Cognito integration
+* S3 Sample Site (blog?)
+
 ## Requirements
 
 | Name | Version |
