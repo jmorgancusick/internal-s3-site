@@ -13,7 +13,7 @@ resource "aws_instance" "jumphost" {
   vpc_security_group_ids = [aws_security_group.jumphost.id]
 
   user_data = templatefile(
-    "${path.module}/user_data.tftpl", 
+    "${path.module}/user_data.tftpl",
     {
       proxy_username = var.proxy_username,
       proxy_password = random_password.proxy_password.result,
