@@ -6,6 +6,12 @@ Use API GW and cognito for internal-only static sites
 * Cognito integration - followed [this guide](https://www.youtube.com/watch?v=Wi3CEhPEEuw)
 * S3 Sample Site (blog?)
 
+### Steps to run
+
+* aws sso login sandbox
+* aws sso login personal (state storage)
+* terraform apply, test on other machine because something is funky with tailscale/proxy/etc.
+
 ## Requirements
 
 | Name | Version |
