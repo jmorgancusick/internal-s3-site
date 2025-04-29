@@ -7,7 +7,7 @@ variable "aws_profile" {
 variable "aws_region" {
   description = "The region to use when configuring the AWS provider"
   type        = string
-  default     = "us-east-1"
+  default     = "us-west-2"
 }
 
 variable "owner" {
